@@ -2,13 +2,15 @@ import csv
 from collections import OrderedDict     # for sorting of dictionary keys
 
 while True:
-
-    my_dict = {}
-    with open('data.csv', mode='r') as open_data:  # Opening a file in read mode
-        reader = csv.reader(open_data, delimiter=',')   # delimiter tells us about separator
-        for row in reader:
-            my_dict[row[0]] = (row[1], row[2])
-
+    try:
+        my_dict = {}
+        with open('data.csv', mode='r') as open_data:  # Opening a file in read mode
+            reader = csv.reader(open_data, delimiter=',')   # delimiter tells us about separator
+            for row in reader:
+                my_dict[row[0]] = (row[1], row[2])
+    except FileNotFoundError:
+        print("Data.csv file not found :(")
+        exit()
     try:
         print('/----------------------------------------------------------------------\ ')
         print(' Dictionary for a little programmer:\n\
@@ -44,8 +46,10 @@ while True:
 
         elif menu == 4:
             my_dict = OrderedDict(sorted(my_dict.items()))
+            letter_choice = input("Enter first letter of definition: ")
             for key in my_dict:
-                print(key[0])   # printing only first letter of the keys
+                if key[0].upper() == letter_choice.upper():
+                    print(key)
 
         elif menu == 0:
             break
